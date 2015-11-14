@@ -1,5 +1,6 @@
 package com.bigbass1997.fractaltree.world;
 
+import java.util.ArrayList;
 import java.util.Hashtable;
 
 import com.badlogic.gdx.Gdx;
@@ -18,6 +19,7 @@ import com.bigbass1997.fractaltree.graphics.QuickRender;
 public class World {
 	
 	public Hashtable<String, Object> objects;
+	public ArrayList<Tree> trees;
 	
 	public Camera cam;
 	private final Vector3 camtmp = new Vector3();
@@ -30,6 +32,7 @@ public class World {
 	
 	public World(Camera cam){
 		objects = new Hashtable<String, Object>();
+		trees = new ArrayList<Tree>();
 		
 		this.cam = cam;
 
@@ -51,6 +54,10 @@ public class World {
 		objects.remove(id);
 	}
 	
+	public void generateTree(int segments, int splits){
+		trees.add(new Tree(segments, splits));
+	}
+	
 	public void render(){
 		quickRend.beginLines();
 		quickRend.line(0, 0, 0, 0xFF0000FF, 500, 0, 0, 0xFF0000FF);
@@ -68,6 +75,8 @@ public class World {
 			object.render();
 			modelBatch.render(object.modelInstance, environment);
 		}
+		
+		for(Tree tree : trees) tree.render(modelBatch, environment);
 		modelBatch.end();
 	}
 	
@@ -75,6 +84,7 @@ public class World {
 		for(Object object : objects.values()){
 			object.update(delta);
 		}
+		for(Tree tree : trees) tree.update(delta);
 		
 		Input input = Gdx.input;
 		

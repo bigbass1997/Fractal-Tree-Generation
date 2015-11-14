@@ -2,13 +2,9 @@ package com.bigbass1997.fractaltree;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Input.Buttons;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
-import com.badlogic.gdx.math.Quaternion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -47,7 +43,8 @@ public class Main extends ApplicationAdapter {
 		//Adds the debug label to the stage so that it can be rendered/updated
 		stage.addActor(debugLabel);
 		
-		world.addObject("TestSegment", new Segment(new Vector3(250f, 10f, 0f), new Vector2(5f, 20f), 0x000000FF));
+		//world.addObject("TestSegment", new Segment(new Vector3(250f, 10f, 0f), new Vector2(5f, 20f), 0x000000FF, 0));
+		world.generateTree(2, 2);
 	}
 
 	@Override
@@ -89,23 +86,6 @@ public class Main extends ApplicationAdapter {
 				"  Z: " + world.cam.up.z + "\n" +
 				"Rot: " + rotation
 		);
-		
-		Input input = Gdx.input;
-		
-		
-		if(input.isKeyPressed(Keys.O)){ //Rotates TestSegment counter-clockwise
-			Vector3 tmpPos = world.objects.get("TestSegment").getPos().cpy();
-			world.objects.get("TestSegment").modelInstance.transform.translate(0, -tmpPos.y, -tmpPos.z).rotate(Vector3.Z, speed*2).translate(0, tmpPos.y, tmpPos.z);
-			rotation -= speed*2;
-		}
-		if(input.isKeyPressed(Keys.P)){ //Rotates TestSegment clockwise
-			Vector3 tmpPos = world.objects.get("TestSegment").getPos().cpy();
-			world.objects.get("TestSegment").modelInstance.transform.translate(0, -tmpPos.y, -tmpPos.z).rotate(Vector3.Z, -speed*2).translate(0, tmpPos.y, tmpPos.z);
-			rotation += speed*2;
-		}
-		
-		if(rotation > 360) rotation = 0;
-		if(rotation < 0) rotation = 360;
 	}
 	
 	@Override

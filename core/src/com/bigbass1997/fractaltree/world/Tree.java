@@ -2,10 +2,11 @@ package com.bigbass1997.fractaltree.world;
 
 import java.util.ArrayList;
 
-import com.badlogic.gdx.graphics.g3d.Environment;
-import com.badlogic.gdx.graphics.g3d.ModelBatch;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.glutils.ImmediateModeRenderer20;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 
 public class Tree {
 	
@@ -27,34 +28,18 @@ public class Tree {
 	}
 	
 	private void generate(){
-		if(!segments.isEmpty()) segments.clear();
-		int level = 0;
+		float middle = (Gdx.graphics.getWidth() / 2) - 20;
+		segments.add(new Segment(new Vector2(middle, 20), new Vector2(5, 100), new int[]{0x000000FF,0x000000FF,0x000000FF,0x000000FF}, 0));
+		segments.add(new Segment(new Vector2(middle + (MathUtils.cosDeg(90) * 5), 20 + (MathUtils.sinDeg(90) * 100)), new Vector2(5, 75), new int[]{0x000000FF,0x000000FF,0x000000FF,0x000000FF}, -45));
+		segments.add(new Segment(new Vector2(middle + (MathUtils.cosDeg(90) * 5), 20 + (MathUtils.sinDeg(90) * 100)), new Vector2(5, 75), new int[]{0x000000FF,0x000000FF,0x000000FF,0x000000FF}, 45));
 		
-		Vector2 dim = new Vector2(5f, 20f);
-		
-		segments.add(new Segment(new Vector3(0, 0, 0), dim, 0x000000FF, 0, level));
-		
-		while(level < totalBranchLength){
-			ArrayList<Segment> tmpList = new ArrayList<Segment>();
-			
-			for(Segment segment : segments){
-				if(segment.level == level){
-					Segment newSegment = new Segment(Vector3.Zero, dim, 0x000000FF, 45f*(level + 1), level + 1);
-					newSegment.setPos(segment.getPos().add(0, segment.size.y, 0));
-					//newSegment.rotate(45f*(level + 1));
-					tmpList.add(newSegment);
-				}
-			}
-			
-			segments.addAll(tmpList);
-			level++;
-		}
+		segments.add(new Segment(new Vector2(middle, 95 + (MathUtils.sinDeg(90) * 75)), new Vector2(5, 75), new int[]{0x000000FF,0x000000FF,0x000000FF,0x000000FF}, -45));
+		//segments.add(new Segment(new Vector2(middle, 20 + 100), new Vector2(5, 75), new int[]{0x000000FF,0x000000FF,0x000000FF,0x000000FF}, 45));
 	}
 	
-	public void render(ModelBatch modelBatch, Environment environment){
+	public void render(ImmediateModeRenderer20 render, ShapeRenderer sr){
 		for(Segment segment : segments){
-			segment.render();
-			modelBatch.render(segment.modelInstance, environment);
+			segment.render(sr);
 		}
 	}
 	

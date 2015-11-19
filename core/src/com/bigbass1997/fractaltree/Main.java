@@ -2,49 +2,48 @@ package com.bigbass1997.fractaltree;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.PerspectiveCamera;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.glutils.ImmediateModeRenderer20;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.bigbass1997.fractaltree.world.Segment;
-import com.bigbass1997.fractaltree.world.World;
 import com.bigbass1997.fractaltree.fonts.FontManager;
+import com.bigbass1997.fractaltree.world.Tree;
 
 public class Main extends ApplicationAdapter {
 	
-	public World world;
 	public Stage stage;
 	public Label debugLabel;
+	private ImmediateModeRenderer20 render;
+	private ShapeRenderer sr;
+	private Tree tree;
+	public static Camera cam;
 	
 	@Override
 	public void create () {
 		FontManager.addFont("fonts/computer.ttf"); //Added font to be used with Debug Text
 		
-		//create, setup, and pass the camera that will be used. (Perspective or Orthogonal)
-		PerspectiveCamera cam = new PerspectiveCamera(67f, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		cam.position.set(250f, 250f, 400f);
-		cam.lookAt(250f, 250f, 0); //Maybe change to look directly at XY plane
-		cam.near = 1f;
-		cam.far = 5000f;
-		cam.update();
-		
-		//Creates new world that holds all the objects that will be rendered and includes camera controls
-		world = new World(cam);
+		cam = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		cam.position.set(cam.viewportWidth / 2f, cam.viewportHeight / 2f, 0);
+        cam.update();
 		
 		//Creates new stage for use with the debug text label
 		stage = new Stage();
 		
 		debugLabel = new Label("", new Label.LabelStyle(FontManager.getFont("fonts/computer.ttf", 20).font, Color.BLACK));
-		debugLabel.setPosition(10, Gdx.graphics.getHeight() - 110);
+		debugLabel.setPosition(10, Gdx.graphics.getHeight() - debugLabel.getHeight());
 		
 		//Adds the debug label to the stage so that it can be rendered/updated
 		stage.addActor(debugLabel);
 		
-		//world.addObject("TestSegment", new Segment(new Vector3(250f, 10f, 0f), new Vector2(5f, 20f), 0x000000FF, 0));
-		world.generateTree(2, 2);
+		render = new ImmediateModeRenderer20(5000, false, true, 0);
+		sr = new ShapeRenderer();
+		
+		tree = new Tree(3, 2);
 	}
 
 	@Override
@@ -58,38 +57,31 @@ public class Main extends ApplicationAdapter {
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 		
-		world.render();
+		render.begin(cam.combined, ShapeType.Filled.getGlType());
+		sr.begin(ShapeType.Filled);
+		
+		tree.render(render, sr);
+		
+		sr.end();
+		render.end();
+		
 		stage.draw();
 	}
 	
-	float rotation = 0;
 	private void update(){
 		float speed = 50f * Gdx.graphics.getDeltaTime(); //allows for equal movement speed no matter the FPS
 		
-		world.update(Gdx.graphics.getDeltaTime());
+		tree.update(Gdx.graphics.getDeltaTime());
 		
 		debugLabel.setText(
 				"FPS: " + Gdx.graphics.getFramesPerSecond() + "\n" +
-				"#Obs: " + world.objects.size() + "\n" + 
-				"Speed: " + (int) (speed * Gdx.graphics.getFramesPerSecond()) + "px/s\n" + 
-				"Cam Pos:\n" +
-				"  X: " + world.cam.position.x + "\n" +
-				"  Y: " + world.cam.position.y + "\n" +
-				"  Z: " + world.cam.position.z + "\n" +
-				"Cam Dir:\n" +
-				"  X: " + world.cam.direction.x + "\n" +
-				"  Y: " + world.cam.direction.y + "\n" +
-				"  Z: " + world.cam.direction.z + "\n" +
-				"Cam Up:\n" +
-				"  X: " + world.cam.up.x + "\n" +
-				"  Y: " + world.cam.up.y + "\n" +
-				"  Z: " + world.cam.up.z + "\n" +
-				"Rot: " + rotation
+				"Speed: " + (int) (speed * Gdx.graphics.getFramesPerSecond()) + "px/s"
 		);
+		debugLabel.setPosition(10, Gdx.graphics.getHeight() - debugLabel.getHeight() - 20);
 	}
 	
 	@Override
 	public void dispose(){
-		world.dispose();
+		render.dispose();
 	}
 }

@@ -43,7 +43,7 @@ public class Main extends ApplicationAdapter {
 		render = new ImmediateModeRenderer20(5000, false, true, 0);
 		sr = new ShapeRenderer();
 		
-		tree = new Tree(3, 2);
+		tree = new Tree(8, 2, 20f);
 	}
 
 	@Override

@@ -1,7 +1,11 @@
 package com.bigbass1997.fractaltree;
 
+import java.util.Random;
+
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -22,6 +26,8 @@ public class Main extends ApplicationAdapter {
 	private ShapeRenderer sr;
 	private Tree tree;
 	public static Camera cam;
+	
+	private boolean isTreeRegenReady = true, isScreenshotReady = true;
 	
 	@Override
 	public void create () {
@@ -70,6 +76,33 @@ public class Main extends ApplicationAdapter {
 	
 	private void update(){
 		float speed = 50f * Gdx.graphics.getDeltaTime(); //allows for equal movement speed no matter the FPS
+		Input input = Gdx.input;
+		
+		if(input.isKeyPressed(Keys.SPACE) && isTreeRegenReady){
+			Random rand = new Random();
+			
+			int generations = rand.nextInt(8) + 5; //5-12
+			int splits = 2; //Unused but default is 2
+			float degreeChangeLeft = (rand.nextFloat() * 80) + 10; //10-90
+			float degreeChangeRight = (rand.nextFloat() * 80) + 10; //10-90
+			float initWidth = (rand.nextFloat() * 8) + 5; //8-13
+			float initLength = (rand.nextFloat() * 70) + 50; //50-120
+			float lengthMultiplier = (rand.nextFloat() * 0.35f) + 0.6f; //0.60-0.95
+			float widthMultiplier = (rand.nextFloat() * 0.30f) + 0.6f; //0.60-0.90
+			
+			tree = new Tree(generations, splits, degreeChangeLeft, degreeChangeRight, initWidth, initLength, lengthMultiplier, widthMultiplier);
+			isTreeRegenReady = false;
+		} else if(!input.isKeyPressed(Keys.SPACE) && !isTreeRegenReady){
+			isTreeRegenReady = true;
+		}
+		
+		if(input.isKeyPressed(Keys.S) && isScreenshotReady){
+			ScreenshotFactory.saveScreen();
+			isScreenshotReady = false;
+		} else if(!input.isKeyPressed(Keys.S) && !isScreenshotReady){
+			isScreenshotReady = true;
+		}
+		
 		
 		tree.update(Gdx.graphics.getDeltaTime());
 		

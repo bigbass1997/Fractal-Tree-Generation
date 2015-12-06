@@ -16,6 +16,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.bigbass1997.fractaltree.fonts.FontManager;
+import com.bigbass1997.fractaltree.graphics.LifelikeColorScheme;
 import com.bigbass1997.fractaltree.world.Tree;
 
 public class Main extends ApplicationAdapter {
@@ -49,7 +50,7 @@ public class Main extends ApplicationAdapter {
 		render = new ImmediateModeRenderer20(5000, false, true, 0);
 		sr = new ShapeRenderer();
 		
-		tree = new Tree(7, 2, 100f, 100f, 10, 120, 0.8f, 0.78f);
+		tree = new Tree(7, 2, 100f, 100f, 10, 120, 0.8f, 0.78f, new LifelikeColorScheme());
 	}
 
 	@Override
@@ -71,7 +72,7 @@ public class Main extends ApplicationAdapter {
 		sr.end();
 		render.end();
 		
-		stage.draw();
+		//stage.draw();
 	}
 	
 	private void update(){
@@ -90,7 +91,7 @@ public class Main extends ApplicationAdapter {
 			float lengthMultiplier = (rand.nextFloat() * 0.35f) + 0.6f; //0.60-0.95
 			float widthMultiplier = (rand.nextFloat() * 0.30f) + 0.6f; //0.60-0.90
 			
-			tree = new Tree(generations, splits, degreeChangeLeft, degreeChangeRight, initWidth, initLength, lengthMultiplier, widthMultiplier);
+			tree = new Tree(generations, splits, degreeChangeLeft, degreeChangeRight, initWidth, initLength, lengthMultiplier, widthMultiplier, new LifelikeColorScheme());
 			isTreeRegenReady = false;
 		} else if(!input.isKeyPressed(Keys.SPACE) && !isTreeRegenReady){
 			isTreeRegenReady = true;

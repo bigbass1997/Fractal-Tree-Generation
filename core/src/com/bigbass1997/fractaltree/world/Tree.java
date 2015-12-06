@@ -7,12 +7,21 @@ import com.badlogic.gdx.graphics.glutils.ImmediateModeRenderer20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.bigbass1997.fractaltree.graphics.ColorScheme;
+import com.bigbass1997.fractaltree.graphics.DefaultColorScheme;
 
 public class Tree {
 	
 	public ArrayList<Segment> segments;
 	public int generations, splits;
 	public float degreeChangeLeft, degreeChangeRight, initLength, initWidth, lengthMultiplier, widthMultiplier;
+	
+	private ColorScheme colorScheme;
+	
+
+	public Tree(int generations, int splits, float degreeChangeLeft, float degreeChangeRight, float initWidth, float initLength, float lengthMultiplier, float widthMultiplier){
+		this(generations, splits, degreeChangeLeft, degreeChangeRight, initWidth, initLength, lengthMultiplier, widthMultiplier, new DefaultColorScheme());
+	}
 	
 	/**
 	 * <p>Creates a new Fractal Tree.</p>
@@ -26,7 +35,7 @@ public class Tree {
 	 * @param lengthMultiplier how much smaller the length of the next generation of branches should be in decimal percentage 0.01 = 1% of previous
 	 * @param widthMultiplier how much smaller the width of the next generation of branches should be in decimal percentage 0.01 = 1% of previous
 	 */
-	public Tree(int generations, int splits, float degreeChangeLeft, float degreeChangeRight, float initWidth, float initLength, float lengthMultiplier, float widthMultiplier){
+	public Tree(int generations, int splits, float degreeChangeLeft, float degreeChangeRight, float initWidth, float initLength, float lengthMultiplier, float widthMultiplier, ColorScheme colorScheme){
 		segments = new ArrayList<Segment>();
 		this.generations = generations;
 		this.splits = splits; // Unused at this time
@@ -36,13 +45,14 @@ public class Tree {
 		this.initLength = initLength;
 		this.lengthMultiplier = lengthMultiplier;
 		this.widthMultiplier = widthMultiplier;
-		
+		this.colorScheme = colorScheme;
 		
 		float middle = (Gdx.graphics.getWidth() / 2) - 20;
 		
 		segments.add(new Segment(new Vector2(middle, 80), new Vector2(initWidth, initLength), new int[]{0x000000FF,0x000000FF,0x000000FF,0x000000FF}, 90, generations));
 		
 		generate(generations);
+		colorScheme.invoke(segments);
 	}
 	
 	private void generate(int len){

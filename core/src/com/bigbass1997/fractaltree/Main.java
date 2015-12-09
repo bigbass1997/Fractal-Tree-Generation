@@ -72,7 +72,7 @@ public class Main extends ApplicationAdapter {
 		sr.end();
 		render.end();
 		
-		//stage.draw();
+		stage.draw();
 	}
 	
 	private void update(){
@@ -109,9 +109,16 @@ public class Main extends ApplicationAdapter {
 		
 		debugLabel.setText(
 				"FPS: " + Gdx.graphics.getFramesPerSecond() + "\n" +
-				"Speed: " + (int) (speed * Gdx.graphics.getFramesPerSecond()) + "px/s"
+				"Tree:\n" +
+				"  generations: " + tree.generations + "\n" +
+				"  degreeLeft: " + tree.degreeChangeLeft + "\n" +
+				"  degreeRight: " + tree.degreeChangeRight + "\n" +
+				"  initWidth: " + tree.initWidth + "\n" +
+				"  initHeight: " + tree.initLength + "\n" +
+				"  widthMult: " + tree.widthMultiplier + "\n" +
+				"  heightMult: " + tree.lengthMultiplier
 		);
-		debugLabel.setPosition(10, Gdx.graphics.getHeight() - debugLabel.getHeight() - 20);
+		debugLabel.setPosition(10, Gdx.graphics.getHeight() - 75);
 	}
 	
 	@Override

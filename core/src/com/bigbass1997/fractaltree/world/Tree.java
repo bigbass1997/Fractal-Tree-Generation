@@ -64,7 +64,6 @@ public class Tree {
 					Vector2 pos = new Vector2(seg.pos.x + (MathUtils.cosDeg(seg.degrees - 90) * seg.size.y), seg.pos.y + (MathUtils.sinDeg(seg.degrees - 90) * seg.size.y));
 					Vector2 size = new Vector2(seg.size.x * widthMultiplier, seg.size.y * lengthMultiplier);
 					
-					System.out.println((-len + generations));
 					segments.add(new Segment(pos, size, new int[]{0x000000FF,0x000000FF,0x000000FF,0x000000FF}, seg.degrees + degreeChangeLeft - 90, len - 1));
 					segments.add(new Segment(pos, size, new int[]{0x000000FF,0x000000FF,0x000000FF,0x000000FF}, seg.degrees - degreeChangeRight - 90, len - 1));
 				}

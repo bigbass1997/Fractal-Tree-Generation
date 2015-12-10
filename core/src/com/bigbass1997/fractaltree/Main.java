@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.bigbass1997.fractaltree.fonts.FontManager;
 import com.bigbass1997.fractaltree.graphics.LifelikeColorScheme;
+import com.bigbass1997.fractaltree.graphics.TreeOfLifeColorScheme;
 import com.bigbass1997.fractaltree.world.Tree;
 
 public class Main extends ApplicationAdapter {
@@ -50,7 +51,7 @@ public class Main extends ApplicationAdapter {
 		render = new ImmediateModeRenderer20(5000, false, true, 0);
 		sr = new ShapeRenderer();
 		
-		tree = new Tree(7, 2, 100f, 100f, 10, 120, 0.8f, 0.78f, new LifelikeColorScheme());
+		tree = new Tree(0, new float[]{}, 0, 0, 0, 0, new TreeOfLifeColorScheme());
 	}
 
 	@Override
@@ -82,16 +83,14 @@ public class Main extends ApplicationAdapter {
 		if(input.isKeyPressed(Keys.SPACE) && isTreeRegenReady){
 			Random rand = new Random();
 			
-			int generations = rand.nextInt(8) + 5; //5-12
-			int splits = 2; //Unused but default is 2
-			float degreeChangeLeft = (rand.nextFloat() * 80) + 10; //10-90
-			float degreeChangeRight = (rand.nextFloat() * 80) + 10; //10-90
+			int generations = rand.nextInt(5) + 4; //4-8
+			float[] degreeChanges = new float[]{((rand.nextFloat() * 160) + 10),((rand.nextFloat() * 160) + 10),((rand.nextFloat() * 160) + 10)}; //10-170
 			float initWidth = (rand.nextFloat() * 8) + 5; //8-13
-			float initLength = (rand.nextFloat() * 70) + 50; //50-120
-			float lengthMultiplier = (rand.nextFloat() * 0.35f) + 0.6f; //0.60-0.95
+			float initHeight = (rand.nextFloat() * 70) + 50; //50-120
+			float heightMultiplier = (rand.nextFloat() * 0.35f) + 0.6f; //0.60-0.95
 			float widthMultiplier = (rand.nextFloat() * 0.30f) + 0.6f; //0.60-0.90
 			
-			tree = new Tree(generations, splits, degreeChangeLeft, degreeChangeRight, initWidth, initLength, lengthMultiplier, widthMultiplier, new LifelikeColorScheme());
+			tree = new Tree(generations, degreeChanges, initWidth, initHeight, heightMultiplier, widthMultiplier, new TreeOfLifeColorScheme());
 			isTreeRegenReady = false;
 		} else if(!input.isKeyPressed(Keys.SPACE) && !isTreeRegenReady){
 			isTreeRegenReady = true;
@@ -104,20 +103,26 @@ public class Main extends ApplicationAdapter {
 			isScreenshotReady = true;
 		}
 		
-		
 		tree.update(Gdx.graphics.getDeltaTime());
 		
-		debugLabel.setText(
+		String debugLabelText =
 				"FPS: " + Gdx.graphics.getFramesPerSecond() + "\n" +
 				"Tree:\n" +
 				"  generations: " + tree.generations + "\n" +
-				"  degreeLeft: " + tree.degreeChangeLeft + "\n" +
-				"  degreeRight: " + tree.degreeChangeRight + "\n" +
-				"  initWidth: " + tree.initWidth + "\n" +
-				"  initHeight: " + tree.initLength + "\n" +
+				"  degreeChanges: ";
+		
+		for(int i = 0; i < tree.degreeChanges.length; i++){
+			debugLabelText += (tree.degreeChanges[i] + " ");
+		}
+		
+		debugLabelText +=
+				"\n  initWidth: " + tree.initWidth + "\n" +
+				"  initHeight: " + tree.initHeight + "\n" +
 				"  widthMult: " + tree.widthMultiplier + "\n" +
-				"  heightMult: " + tree.lengthMultiplier
-		);
+				"  heightMult: " + tree.heightMultiplier + "\n" +
+				"  segments: " + tree.segments.size();
+		
+		debugLabel.setText(debugLabelText);
 		debugLabel.setPosition(10, Gdx.graphics.getHeight() - 75);
 	}
 	

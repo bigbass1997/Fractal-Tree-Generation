@@ -16,7 +16,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.bigbass1997.fractaltree.fonts.FontManager;
-import com.bigbass1997.fractaltree.graphics.LifelikeColorScheme;
 import com.bigbass1997.fractaltree.graphics.TreeOfLifeColorScheme;
 import com.bigbass1997.fractaltree.world.Tree;
 
@@ -77,7 +76,6 @@ public class Main extends ApplicationAdapter {
 	}
 	
 	private void update(){
-		float speed = 50f * Gdx.graphics.getDeltaTime(); //allows for equal movement speed no matter the FPS
 		Input input = Gdx.input;
 		
 		if(input.isKeyPressed(Keys.SPACE) && isTreeRegenReady){

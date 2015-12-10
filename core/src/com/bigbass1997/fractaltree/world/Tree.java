@@ -45,7 +45,7 @@ public class Tree {
 		
 		float middle = (Gdx.graphics.getWidth() / 2) - 20;
 		
-		segments.add(new Segment(new Vector2(middle, 80), new Vector2(initWidth, initHeight), new int[]{0x000000FF,0x000000FF,0x000000FF,0x000000FF}, 90, generations));
+		segments.add(new Segment(new Vector2(middle, 150), new Vector2(initWidth, initHeight), new int[]{0x000000FF,0x000000FF,0x000000FF,0x000000FF}, 90, generations));
 		
 		generate(generations);
 		colorScheme.invoke(segments);

@@ -7,15 +7,32 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.PixmapIO;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.bigbass1997.fractaltree.world.Tree;
 
 /**
  * @see <a href="https://github.com/libgdx/libgdx/wiki/Take-a-Screenshot">https://github.com/libgdx/libgdx/wiki/Take-a-Screenshot</a>
  */
 public class ScreenshotFactory {
 	
-	public static void saveScreen(){
+	public static void saveScreen(Tree tree){
 		try{
-            FileHandle fh = new FileHandle("tree-" + System.nanoTime() + ".png");
+			String d = ".", format = ".png";
+			String filename = "tree" + d + tree.generations + d + "[";
+			
+			for(int i = 0; i < tree.degreeChanges.length; i++){
+				filename += (tree.degreeChanges[i] + d);
+			}
+			
+			filename +=
+					"]" + d +
+					tree.initWidth + d +
+					tree.initHeight + d +
+					tree.widthMultiplier + d +
+					tree.heightMultiplier + d +
+					tree.segments.size() +
+					format;
+			
+            FileHandle fh = new FileHandle(filename);
             
             int w = Gdx.graphics.getWidth(), h = Gdx.graphics.getHeight();
             

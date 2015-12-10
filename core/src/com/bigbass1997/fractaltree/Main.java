@@ -95,7 +95,7 @@ public class Main extends ApplicationAdapter {
 		}
 		
 		if(input.isKeyPressed(Keys.S) && isScreenshotReady){
-			ScreenshotFactory.saveScreen();
+			ScreenshotFactory.saveScreen(tree);
 			isScreenshotReady = false;
 		} else if(!input.isKeyPressed(Keys.S) && !isScreenshotReady){
 			isScreenshotReady = true;

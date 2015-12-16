@@ -1,6 +1,8 @@
 package com.bigbass1997.fractaltree;
 
 import java.nio.ByteBuffer;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
@@ -17,7 +19,11 @@ public class ScreenshotFactory {
 	public static void saveScreen(Tree tree){
 		try{
 			String d = ".", format = ".png";
-			String filename = "saved-trees/tree" + d + System.nanoTime() + format;
+			
+			Date date = new Date();
+			SimpleDateFormat dateFormat = new SimpleDateFormat("MM.dd.yyyy-HH.mm.ss.S");
+			
+			String filename = "saved-trees/tree" + d + dateFormat.format(date) + format;
 			
             FileHandle fh = new FileHandle(filename);
             

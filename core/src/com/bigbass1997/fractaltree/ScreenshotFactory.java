@@ -17,20 +17,7 @@ public class ScreenshotFactory {
 	public static void saveScreen(Tree tree){
 		try{
 			String d = ".", format = ".png";
-			String filename = "tree" + d + tree.generations + d + "[";
-			
-			for(int i = 0; i < tree.degreeChanges.length; i++){
-				filename += (tree.degreeChanges[i] + d);
-			}
-			
-			filename +=
-					"]" + d +
-					tree.initWidth + d +
-					tree.initHeight + d +
-					tree.widthMultiplier + d +
-					tree.heightMultiplier + d +
-					tree.segments.size() +
-					format;
+			String filename = "saved-trees/tree" + d + System.nanoTime() + format;
 			
             FileHandle fh = new FileHandle(filename);
             

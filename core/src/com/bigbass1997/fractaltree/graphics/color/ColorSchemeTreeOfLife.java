@@ -1,16 +1,23 @@
-package com.bigbass1997.fractaltree.graphics;
+package com.bigbass1997.fractaltree.graphics.color;
 
 import java.util.ArrayList;
 
 import com.bigbass1997.fractaltree.world.Segment;
 
-public class LifelikeColorScheme implements ColorScheme {
+public class ColorSchemeTreeOfLife implements ColorScheme {
 	
-	private int BROWN = 0x663212FF, GREEN = 0x00FF00FF;
+	/**
+	 * Colors found from <a href="http://www.colourlovers.com/palette/97779/Tree_of_Knowledge">http://www.colourlovers.com/palette/97779/Tree_of_Knowledge</a>
+	 */
+	private int TREETRUNK = 0x4D3204FF,
+				ZIPPI = 0x0A6906FF,
+				SNAKE = 0x27BE22FF,
+				LIGHTLEAF = 0x219E1CFF,
+				FORBIDFRUIT = 0xC7091FFF;
 	
 	@Override
 	public void invoke(ArrayList<Segment> segments){
-		int[] temp = GradientUtil.gradientColors(2, new int[]{BROWN, GREEN});
+		int[] temp = GradientUtil.gradientColors(2, new int[]{TREETRUNK,LIGHTLEAF,FORBIDFRUIT});
 		int[] reorderedTemp = new int[temp.length];
 		
 		for(int i = 0; i < temp.length; i++){

@@ -15,6 +15,8 @@ public class DesktopLauncher {
 		config.vSyncEnabled = false;
 		config.foregroundFPS = 60;
 		
+		config.title = "Fractal Tree Generator";
+		
 		new LwjglApplication(new Main(), config);
 	}
 }

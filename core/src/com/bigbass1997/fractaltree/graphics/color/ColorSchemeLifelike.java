@@ -1,23 +1,16 @@
-package com.bigbass1997.fractaltree.graphics;
+package com.bigbass1997.fractaltree.graphics.color;
 
 import java.util.ArrayList;
 
 import com.bigbass1997.fractaltree.world.Segment;
 
-public class TreeOfLifeColorScheme implements ColorScheme {
+public class ColorSchemeLifelike implements ColorScheme {
 	
-	/**
-	 * Colors found from <a href="http://www.colourlovers.com/palette/97779/Tree_of_Knowledge">http://www.colourlovers.com/palette/97779/Tree_of_Knowledge</a>
-	 */
-	private int TREETRUNK = 0x4D3204FF,
-				ZIPPI = 0x0A6906FF,
-				SNAKE = 0x27BE22FF,
-				LIGHTLEAF = 0x219E1CFF,
-				FORBIDFRUIT = 0xC7091FFF;
+	private int BROWN = 0x663212FF, GREEN = 0x00FF00FF, RED = 0xFF0000FF, PURPLE = 0x480048FF, CYAN = 0x00FFFFFF;
 	
 	@Override
 	public void invoke(ArrayList<Segment> segments){
-		int[] temp = GradientUtil.gradientColors(4, new int[]{TREETRUNK,ZIPPI,SNAKE,LIGHTLEAF,FORBIDFRUIT});
+		int[] temp = GradientUtil.gradientColors(3, new int[]{BROWN, CYAN});
 		int[] reorderedTemp = new int[temp.length];
 		
 		for(int i = 0; i < temp.length; i++){
@@ -36,6 +29,10 @@ public class TreeOfLifeColorScheme implements ColorScheme {
 			if(seg.level > reorderedTemp.length - 2){
 				seg.colors = new int[]{reorderedTemp[reorderedTemp.length-1],reorderedTemp[reorderedTemp.length-1],reorderedTemp[reorderedTemp.length-1],reorderedTemp[reorderedTemp.length-1]};
 			}
+		}
+		
+		for(int i = 0; i < reorderedTemp.length; i++){
+			System.out.println((new com.badlogic.gdx.graphics.Color(reorderedTemp[i])).toString());
 		}
 	}
 }

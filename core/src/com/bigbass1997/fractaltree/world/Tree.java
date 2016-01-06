@@ -7,8 +7,10 @@ import com.badlogic.gdx.graphics.glutils.ImmediateModeRenderer20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.bigbass1997.fractaltree.graphics.ColorScheme;
-import com.bigbass1997.fractaltree.graphics.DefaultColorScheme;
+import com.bigbass1997.fractaltree.graphics.color.ColorScheme;
+import com.bigbass1997.fractaltree.graphics.color.ColorSchemeDefault;
+import com.bigbass1997.fractaltree.graphics.growth.GrowScheme;
+import com.bigbass1997.fractaltree.graphics.growth.GrowSchemeDefault;
 
 public class Tree {
 	
@@ -19,8 +21,8 @@ public class Tree {
 	
 	public ColorScheme colorScheme;
 
-	public Tree(int generations, int splits, float[] degreeChanges, float initWidth, float initHeight, float heightMultiplier, float widthMultiplier){
-		this(generations, degreeChanges, initWidth, initHeight, heightMultiplier, widthMultiplier, new DefaultColorScheme());
+	public Tree(int generations, float[] degreeChanges, float initWidth, float initHeight, float heightMultiplier, float widthMultiplier){
+		this(generations, degreeChanges, initWidth, initHeight, heightMultiplier, widthMultiplier, new ColorSchemeDefault(), new GrowSchemeDefault());
 	}
 	
 	/**
@@ -33,7 +35,7 @@ public class Tree {
 	 * @param heightMultiplier how much smaller the height of the next generation of branches should be in decimal percentage 0.01 = 1% of previous
 	 * @param widthMultiplier how much smaller the width of the next generation of branches should be in decimal percentage 0.01 = 1% of previous
 	 */
-	public Tree(int generations, float[] degreeChanges, float initWidth, float initHeight, float heightMultiplier, float widthMultiplier, ColorScheme colorScheme){
+	public Tree(int generations, float[] degreeChanges, float initWidth, float initHeight, float heightMultiplier, float widthMultiplier, ColorScheme colorScheme, GrowScheme growScheme){
 		segments = new ArrayList<Segment>();
 		this.generations = generations;
 		this.degreeChanges = degreeChanges;
@@ -49,6 +51,7 @@ public class Tree {
 		
 		generate(generations);
 		colorScheme.invoke(segments);
+		growScheme.invoke(segments);
 	}
 	
 	private void generate(int len){
@@ -57,11 +60,11 @@ public class Tree {
 				Segment seg = segments.get(i);
 
 				if(seg.level == len){
-					Vector2 pos = new Vector2(seg.pos.x + (MathUtils.cosDeg(seg.degrees - 90) * seg.size.y), seg.pos.y + (MathUtils.sinDeg(seg.degrees - 90) * seg.size.y));
-					Vector2 size = new Vector2(seg.size.x * widthMultiplier, seg.size.y * heightMultiplier);
+					Vector2 pos = new Vector2(seg.pos.x + (MathUtils.cosDeg(seg.degrees - 90) * seg.maxHeight), seg.pos.y + (MathUtils.sinDeg(seg.degrees - 90) * seg.maxHeight));
+					Vector2 size = new Vector2(seg.size.x * widthMultiplier, seg.maxHeight * heightMultiplier);
 					
 					for(int j = 0; j < degreeChanges.length; j++){
-						segments.add(new Segment(pos, size, new int[]{0x000000FF,0x000000FF,0x000000FF,0x000000FF}, seg.degrees + degreeChanges[j] - 180, len - 1));
+						segments.add(new Segment(pos.cpy(), size.cpy(), new int[]{0x000000FF,0x000000FF,0x000000FF,0x000000FF}, seg.degrees + degreeChanges[j] - 180, len - 1));
 					}
 				}
 			}
@@ -77,5 +80,11 @@ public class Tree {
 	
 	public void update(float delta){
 		for(Segment segment : segments) segment.update(delta);
+	}
+	
+	public void translate(float x, float y){
+		for(Segment segment : segments) {
+			segment.translate(x, y);
+		}
 	}
 }

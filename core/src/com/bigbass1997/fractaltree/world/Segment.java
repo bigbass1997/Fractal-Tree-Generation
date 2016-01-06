@@ -12,6 +12,7 @@ public class Segment extends Object {
 	
 	public float degrees;
 	public int level;
+	public float maxHeight;
 	
 	public Segment(Vector2 pos, Vector2 dim, int[] colors, float degrees){
 		this(pos, dim, colors, degrees, -1);
@@ -23,6 +24,9 @@ public class Segment extends Object {
 		this.colors = colors;
 		this.degrees = degrees+90; // Makes 0 degrees point to the direction it should be
 		this.level = level;
+		
+		maxHeight = dim.y;
+		this.size.y = 0;
 	}
 	
 	@Override

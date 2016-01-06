@@ -1,4 +1,4 @@
-package com.bigbass1997.fractaltree.graphics;
+package com.bigbass1997.fractaltree.graphics.color;
 
 import com.badlogic.gdx.graphics.Color;
 

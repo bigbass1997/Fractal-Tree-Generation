@@ -43,6 +43,10 @@ public class Object {
 	public void update(float delta){
 		
 	}
+
+	public void translate(float x, float y){
+		pos.add(x, y);
+	}
 	
 	public void dispose(){
 		

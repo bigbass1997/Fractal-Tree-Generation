@@ -9,14 +9,13 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.PixmapIO;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.bigbass1997.fractaltree.world.Tree;
 
 /**
  * @see <a href="https://github.com/libgdx/libgdx/wiki/Take-a-Screenshot">https://github.com/libgdx/libgdx/wiki/Take-a-Screenshot</a>
  */
 public class ScreenshotFactory {
 	
-	public static void saveScreen(Tree tree){
+	public static void saveScreen(){
 		try{
 			String d = ".", format = ".png";
 			

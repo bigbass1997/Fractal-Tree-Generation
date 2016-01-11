@@ -6,11 +6,11 @@ import com.bigbass1997.fractaltree.world.Segment;
 
 public class ColorSchemeLifelike implements ColorScheme {
 	
-	private int BROWN = 0x663212FF, GREEN = 0x00FF00FF, RED = 0xFF0000FF, PURPLE = 0x480048FF, CYAN = 0x00FFFFFF;
+	private int BROWN = 0x663212FF, GREEN = 0x00FF00FF, RED = 0xFF0000FF, PURPLE = 0x480048FF, CYAN = 0x00FFFFFF, PINK = 0x033649FF;
 	
 	@Override
 	public void invoke(ArrayList<Segment> segments){
-		int[] temp = GradientUtil.gradientColors(3, new int[]{BROWN, CYAN});
+		int[] temp = GradientUtil.gradientColors(3, new int[]{BROWN, GREEN});
 		int[] reorderedTemp = new int[temp.length];
 		
 		for(int i = 0; i < temp.length; i++){
@@ -31,8 +31,8 @@ public class ColorSchemeLifelike implements ColorScheme {
 			}
 		}
 		
-		for(int i = 0; i < reorderedTemp.length; i++){
+		/*for(int i = 0; i < reorderedTemp.length; i++){
 			System.out.println((new com.badlogic.gdx.graphics.Color(reorderedTemp[i])).toString());
-		}
+		}*/
 	}
 }

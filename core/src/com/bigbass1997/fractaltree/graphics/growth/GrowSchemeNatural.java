@@ -13,7 +13,8 @@ public class GrowSchemeNatural implements GrowScheme {
 			
 			@Override
 			public void run(){
-				double increaseSpeed = 0.00025f * Gdx.graphics.getDeltaTime();
+				//System.out.println(this.getId() + " thread begins..");
+				double increaseSpeed = 0.005f * Gdx.graphics.getDeltaTime();
 				
 				ArrayList<ArrayList<Segment>> segmentMap = new ArrayList<ArrayList<Segment>>();
 				for(int i = 0; i < segments.get(0).level + 1; i++){
@@ -28,9 +29,10 @@ public class GrowSchemeNatural implements GrowScheme {
 				for(int i = segmentMap.size(); i > 0; i--){
 					//System.out.println((i-1) + " | segmentMap.get(i).size()=" + segmentMap.get(i - 1).size());
 					
-					double levelIncreaseSpeed = increaseSpeed * segmentMap.get(i-1).size();
-					System.out.println(levelIncreaseSpeed);
+					double levelIncreaseSpeed = increaseSpeed * (segmentMap.get(i-1).size() / 2.0f);
+					//System.out.println(levelIncreaseSpeed);
 					Segment levelSegment = segmentMap.get(i-1).get(0);
+					//System.out.println(levelSegment.size.y + " / " + levelSegment.maxHeight);
 					while(levelSegment.size.y < levelSegment.maxHeight){
 						//System.out.println(levelSegment.size.y + " / " + levelSegment.maxHeight);
 						if(levelSegment.size.y + levelIncreaseSpeed > levelSegment.maxHeight){
@@ -43,19 +45,9 @@ public class GrowSchemeNatural implements GrowScheme {
 							}
 						}
 					}
-					/*
-					for(Segment segment : segmentMap.get(i - 1)){
-						while(segment.size.y < segment.maxHeight){
-							//System.out.println(segment.size.y + " / " + segment.maxHeight);
-							if(segment.size.y + increaseSpeed > segment.maxHeight) segment.size.y = segment.maxHeight;
-							else {
-								segment.size.y += increaseSpeed;
-							}
-							//System.out.println((i-1) + " | " + segment.level + " | " + segment.size.y + " | " + segment.maxHeight);
-						}
-						//System.out.println((i-1) + " | " + segment.size.y + " / " + segment.maxHeight);
-					}*/
 				}
+
+				//System.out.println(this.getId() + " thread has ended.");
 			}
 			
 		}.start();

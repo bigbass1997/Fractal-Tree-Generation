@@ -1,8 +1,8 @@
 package com.bigbass1997.fractaltree.world;
 
 import java.util.ArrayList;
+import java.util.Random;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.glutils.ImmediateModeRenderer20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
@@ -45,9 +45,8 @@ public class Tree {
 		this.widthMultiplier = widthMultiplier;
 		this.colorScheme = colorScheme;
 		
-		float middle = (Gdx.graphics.getWidth() / 2) - 20;
-		
-		segments.add(new Segment(new Vector2(middle, 150), new Vector2(initWidth, initHeight), new int[]{0x000000FF,0x000000FF,0x000000FF,0x000000FF}, 90, generations));
+		Random rand = new Random();
+		segments.add(new Segment(new Vector2((rand.nextFloat() * 950) + 100, 150), new Vector2(initWidth, initHeight), new int[]{0x000000FF,0x000000FF,0x000000FF,0x000000FF}, 90, generations));
 		
 		generate(generations);
 		colorScheme.invoke(segments);

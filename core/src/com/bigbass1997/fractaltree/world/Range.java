@@ -8,4 +8,15 @@ public class Range<T extends Number> {
 		this.min = min;
 		this.max = max;
 	}
+	
+	/**
+	 * Helper method to quickly redefine both values, without setting them each manually.
+	 * 
+	 * @param min
+	 * @param max
+	 */
+	public void set(T min, T max){
+		this.min = min;
+		this.max = max;
+	}
 }

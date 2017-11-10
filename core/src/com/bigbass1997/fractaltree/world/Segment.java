@@ -12,7 +12,6 @@ public class Segment extends Object {
 	
 	public float degrees;
 	public int level;
-	public float maxHeight;
 	
 	public Segment(Vector2 pos, Vector2 dim, int[] colors, float degrees){
 		this(pos, dim, colors, degrees, -1);
@@ -20,13 +19,10 @@ public class Segment extends Object {
 	
 	public Segment(Vector2 pos, Vector2 dim, int[] colors, float degrees, int level){
 		this.pos = pos;
-		this.size = dim;
+		this.dim = dim;
 		this.colors = colors;
 		this.degrees = degrees+90; // Makes 0 degrees point to the direction it should be
 		this.level = level;
-		
-		maxHeight = dim.y;
-		this.size.y = 0;
 	}
 	
 	@Override
@@ -34,7 +30,7 @@ public class Segment extends Object {
 		sr.identity();
 		sr.translate(pos.x, pos.y, 0);
 		sr.rotate(0, 0, 1, degrees);
-		sr.rect(-(size.x/2), -size.y, size.x, size.y, new Color(colors[0]), new Color(colors[1]), new Color(colors[2]), new Color(colors[3]));
+		sr.rect(-(dim.x/2), -dim.y, dim.x, dim.y, new Color(colors[0]), new Color(colors[1]), new Color(colors[2]), new Color(colors[3]));
 		sr.identity();
 	}
 	
@@ -51,6 +47,6 @@ public class Segment extends Object {
 	}
 	
 	public Segment copy(){
-		return new Segment(pos, size, colors, degrees, level);
+		return new Segment(pos, dim, colors, degrees, level);
 	}
 }

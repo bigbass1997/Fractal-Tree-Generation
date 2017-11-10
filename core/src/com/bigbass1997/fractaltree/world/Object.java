@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 public class Object {
 	
 	protected Vector2 pos;
-	public Vector2 size;
+	public Vector2 dim;
 	
 	public int[] colors;
 	
@@ -32,7 +32,7 @@ public class Object {
 	
 	public Object(Vector2 pos, Vector2 size){
 		this.pos = pos;
-		this.size = size;
+		this.dim = size;
 		this.colors = new int[]{0x000000FF,0x000000FF,0x000000FF,0x000000FF};
 	}
 	

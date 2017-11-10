@@ -9,11 +9,7 @@ public class ColorSchemeTreeOfLife implements ColorScheme {
 	/**
 	 * Colors found from <a href="http://www.colourlovers.com/palette/97779/Tree_of_Knowledge">http://www.colourlovers.com/palette/97779/Tree_of_Knowledge</a>
 	 */
-	private int TREETRUNK = 0x4D3204FF,
-				ZIPPI = 0x0A6906FF,
-				SNAKE = 0x27BE22FF,
-				LIGHTLEAF = 0x219E1CFF,
-				FORBIDFRUIT = 0xC7091FFF;
+	private int TREETRUNK = 0x4D3204FF, LIGHTLEAF = 0x219E1CFF, FORBIDFRUIT = 0xC7091FFF;
 	
 	@Override
 	public void invoke(ArrayList<Segment> segments){

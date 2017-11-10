@@ -7,6 +7,9 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 
+/**
+ * Used to generate and store fonts of different sizes
+ */
 public class FontManager {
 	
 	private static Hashtable<String, Font> fonts;

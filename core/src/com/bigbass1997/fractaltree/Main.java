@@ -1,9 +1,7 @@
 package com.bigbass1997.fractaltree;
 
-import java.util.ArrayList;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
@@ -15,10 +13,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.bigbass1997.fractaltree.fonts.FontManager;
-import com.bigbass1997.fractaltree.graphics.color.ColorSchemeLifelike;
-import com.bigbass1997.fractaltree.graphics.growth.GrowSchemeNatural;
-import com.bigbass1997.fractaltree.world.Forest;
-import com.bigbass1997.fractaltree.world.Range;
+import com.bigbass1997.fractaltree.world.TreeController;
 
 public class Main extends ApplicationAdapter {
 	
@@ -26,10 +21,10 @@ public class Main extends ApplicationAdapter {
 	public Label debugLabel;
 	private ImmediateModeRenderer20 render;
 	private ShapeRenderer sr;
-	public Forest forest;
+	public TreeController treeController;
 	public static Camera cam;
 	
-	private boolean isForestRegenReady = true, isScreenshotReady = true;
+	private boolean isScreenshotReady = true;
 	
 	@Override
 	public void create () {
@@ -51,7 +46,15 @@ public class Main extends ApplicationAdapter {
 		render = new ImmediateModeRenderer20(10000, false, true, 0);
 		sr = new ShapeRenderer();
 		
-		forest = new Forest();
+		treeController = new TreeController();
+		
+		//Temporary until GUI is created
+		treeController.setGenerationsRange(6, 10);
+		treeController.setDegreeChangesRanges(55, 125, 65, 115);
+		treeController.setInitWidthRange(6, 8);
+		treeController.setInitHeightRange(120, 120);
+		treeController.setWidthMultiplierRange(0.80f, 0.95f);
+		treeController.setHeightMultiplierRange(0.85f, 0.90f);
 	}
 
 	@Override
@@ -68,7 +71,7 @@ public class Main extends ApplicationAdapter {
 		render.begin(cam.combined, ShapeType.Filled.getGlType());
 		sr.begin(ShapeType.Filled);
 		
-		forest.render(render, sr);
+		treeController.render(render, sr);
 		
 		sr.end();
 		render.end();
@@ -77,41 +80,21 @@ public class Main extends ApplicationAdapter {
 	}
 	
 	private void update(){
-		Input input = Gdx.input;
 		float delta = Gdx.graphics.getDeltaTime();
 		
-		if(input.isKeyPressed(Keys.SPACE) && isForestRegenReady){
-			Range<Integer> genRange = new Range<Integer>(4, 4);
-			ArrayList<Range<Float>> degChangeRanges = new ArrayList<Range<Float>>();
-			for(int i = 0; i < 2; i++){
-				degChangeRanges.add(new Range<Float>(65f, 115f));
-			}
-			
-			Range<Float> initWidthRange = new Range<Float>(5f, 15f), initHeightRange = new Range<Float>(90f, 90f);
-			Range<Float> widthMultRange = new Range<Float>(0.90f, 0.95f), heightMultRange = new Range<Float>(0.70f, 0.75f);
-			
-			Range<Integer> numTreesRange = new Range<Integer>(30, 40);
-			
-			forest.regenerate(genRange, degChangeRanges, initWidthRange, initHeightRange, widthMultRange, heightMultRange, numTreesRange, new ColorSchemeLifelike(), new GrowSchemeNatural());
-			isForestRegenReady = false;
-		} else if(!input.isKeyPressed(Keys.SPACE) && !isForestRegenReady){
-			isForestRegenReady = true;
-		}
-		
-		if(input.isKeyPressed(Keys.S) && isScreenshotReady){
+		//Allows taking a screenshot of whatever is on the screen
+		if(Gdx.input.isKeyPressed(Keys.S) && isScreenshotReady){
 			ScreenshotFactory.saveScreen();
 			isScreenshotReady = false;
-		} else if(!input.isKeyPressed(Keys.S) && !isScreenshotReady){
+		} else if(!Gdx.input.isKeyPressed(Keys.S) && !isScreenshotReady){
 			isScreenshotReady = true;
 		}
 		
-		forest.update(delta);
+		treeController.update(delta);
 		
 		//Debug Label Text Update
 		String debugLabelText =
-				"FPS: " + Gdx.graphics.getFramesPerSecond() + "\n" +
-				"Forest:\n" +
-				"  Trees: " + forest.trees.size();
+				"FPS: " + Gdx.graphics.getFramesPerSecond();
 		
 		debugLabel.setText(debugLabelText);
 		debugLabel.setPosition(10, Gdx.graphics.getHeight() - 75);
